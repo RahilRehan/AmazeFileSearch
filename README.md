@@ -1,28 +1,50 @@
 # AmazeFileSearch
 Trying to implement efficient searching for text in files.
 
-# GEt it over with Hash
-Time complexity analysis of first approach usign just dictionaries.
+## Get over with it with Hash
+Create a dictionary with keys as file names and values as set of words/paras in each file.
 
-First time the program executes, we store everythin parent dictionary with key value pairs of filenames(keys) and set values(words in files).
+Dict = {file1Name:set(word1, word2, ...), file2Name:set(word1, word2, ...), ...}
 
-Time complexity which we might think usually -> O(max(N1, N2, N2 ...)) => O(N) assuming each insertion into set takes O(1) time and O(Nx) to insert Nx elements into set. But Wrong!
+### Time complexity analysis with dictionaries.
 
-set implementation can take O(N) time to hash the string itself. So, Worst case Time complexity could go upto -> O(max(Nx.(O(max(Wi))))) => O(N.W)
+Ni represents files N1, N2, N3 ....
+Wi represents words in Ni
 
-Space complexity is O(Files.max(words in files))
+Time complexity: we might think usually -> O(max(N1, N2, N2 ...)) => O(N) assuming each insertion into set takes O(1) time and O(Ni) to insert Nx elements into set. But Wrong!
+
+Creation time complexity: set(hash) implementation can take O(N) time to hash the string itself. So, Worst case time complexity could be -> O(max(Ni).O(max(Wi))) => O(N.W)
+
+Search time complexity: O(N.W)
+
+Space complexity is O(max(Ni).max(Wi)) -> O(N.W)
 
 Optimizations:
 
-Once dictionary is computed, no need for creation of dictionary everytime the program runs! Save it!
+First time the program executes, we create the dictionary from scratch and store that dictionary in file for loading next time and saving time of creation from scratch each time. So, we can eliminate overhead of creation time at every initialization.
 
-Now, for searching in worst case as mentioned above the program could be hit by a worst case time complexity of O(N.W)! as we are searching for a word(W) in files of size(N).
+Now, for searching in worst case as mentioned above the program could be hit by a worst case time complexity of O(N.W) as we are searching for a word(W) in files of size(N).
 
-# Trying Trie
-More optimizations(Dictionary Trie), this program is stored in trie.py:
+## Trying to Trie
+This program is stored in trie.py
+
+Read the preprocessing section to know how characters are stored in trie
+
+Huge advantage is that, let's say if we have "amaze" and "amazing" then in our trie we just have "amazing" stored! Now, that's amazing
+
+If you think about it, we are eliminating lot of repeating characters when storing in trie.
+
+Time complexity for creation: O(N.W) but with many optimizations!
+
+Search time complexity: O(Wi) where W is input.
+
+Space complexity: O(N.W) with huge space optimizations.
+
+
+
+## Preprocessing:
 
 Different characters in our list:
-
 [' ', '&', "'", '(', ')', ',', '-', '.', '/', ';', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '\ufeff']
 
 total chars: 37
@@ -37,7 +59,3 @@ normal_ords
 Sample Input:
 ["north america", "grand view-on-hudson", "yunlin county", "south east", "a.t.", "building cnstrctn - general contractors", "engineering, accounting, research, management & related svcs", "refrigeration", "connecticut"]
 
-
-Time complexity analysis with trie:
-O(max(len(input[i])))
-Space O()

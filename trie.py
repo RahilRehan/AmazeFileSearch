@@ -23,15 +23,24 @@ class AmazeFileSearchTrie:
               (end - start).total_seconds(), "sec")
 
     def run(self):
+        """
+        Our run function sets up the trie and
+        this also handles input and output function,
+        until you want them to be abstracted out!
+        """
         self.trie_setup()
         yo_input = self.input_handler()
         self.output_handler(yo_input)
 
     def trie_setup(self):
+        """
+        This function handles trie itself.
+        If trie exists then we use it else,
+        we create a new one!(Time consuming brughh!)
+        """
         list_of_files = self.get_files_list()
         self.root = self.get_trie()
         if not self.root:
-            print("does not exists")
             self.root= TrieNode()
             self.initialize_trie(list_of_files)
             self.save_trie(self.root)
@@ -63,6 +72,9 @@ class AmazeFileSearchTrie:
         a_file.close()
 
     def initialize_trie(self, list_of_files):
+        """
+        Creating the trie for first time
+        """
         for file in list_of_files:
             with open(os.getcwd() + "/dictionary/" + str(file), "r+", encoding='utf-8') as read_file:
                 file_name = os.path.basename(read_file.name)
@@ -71,6 +83,9 @@ class AmazeFileSearchTrie:
                     self.insert(line, file_name)
 
     def insert(self, word, file_name):
+        """
+        Trie insertion function! cool bruh!
+        """
         temp = self.root
         for w in range(len(word)):
             idx = self.getCharMap(word[w])
@@ -119,6 +134,9 @@ class AmazeFileSearchTrie:
 
 
     def getCharMap(self, c):
+        """
+        Mapping characters to store in trie
+        """
         out = ord(c)-ord('a')
         if out == -65:
             return 26
