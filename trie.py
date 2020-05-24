@@ -20,7 +20,7 @@ class AmazeFileSearchTrie:
         self.run()
         end = datetime.datetime.now()
         print("The total execution time is ",
-              (end - start).total_seconds(), "sec")
+              (end - start).total_seconds()% 86400, "sec")
 
     def run(self):
         """
@@ -107,6 +107,7 @@ class AmazeFileSearchTrie:
         """
         runs the search and outputs the result
         """
+        startF = datetime.datetime.now()
         print("Output: ")
         for ele in yo_input:
             found = self.lets_search_trie(ele)
@@ -114,6 +115,10 @@ class AmazeFileSearchTrie:
                 print(ele + " is available in " + " and ".join(found)+".")
             else:
                 print(ele + " not found! or check input!")
+        endF = datetime.datetime.now()
+        print("The test case execution time is ",
+              (endF - startF).total_seconds()% 86400, "sec")
+
 
     def lets_search_trie(self, ele):
         """
